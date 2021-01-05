@@ -1,6 +1,7 @@
 from flask import render_template, flash, redirect, request
-from app import app, db
-#from app.models import Course, Files
+from project.car_workshop.app import app
+# from app import app
+# from app.models import Course, Files
 import re
 import os
 from pathlib import Path
