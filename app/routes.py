@@ -6,12 +6,11 @@ if os.name == 'posix':
     from project.car_workshop.app import app
     #from app.models import Course, Files
   else:
-    from flask import render_template, flash, redirect, request
     from car_workshop.app import app
 elif os.name == 'nt':
-  from flask import render_template, flash, redirect, request
   from car_workshop.app import app
 
+from flask import render_template, flash, redirect, request
 import re
 from pathlib import Path
 import time
