@@ -3,7 +3,9 @@ from flask_bootstrap import Bootstrap
 import os
 import subprocess
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_mapping(SECRET_WORD='dev')
+
 bootstrap = Bootstrap(app)
 
 if os.name == 'nt':
