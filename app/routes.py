@@ -1,13 +1,18 @@
 import subprocess
-if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
-  from project.car_workshop.app import app
-  #from app.models import Course, Files
-else:
+import os
+
+if os.name == 'posix':
+  if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
+    from project.car_workshop.app import app
+    #from app.models import Course, Files
+  else:
+    from flask import render_template, flash, redirect, request
+    from car_workshop.app import app
+elif os.name == 'nt':
   from flask import render_template, flash, redirect, request
   from car_workshop.app import app
 
 import re
-import os
 from pathlib import Path
 import time
 import json
