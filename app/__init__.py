@@ -5,6 +5,7 @@ import subprocess
 
 app = Flask(__name__, instance_relative_config=True)
 app.config.from_mapping(SECRET_WORD='dev')
+app.config['SECRET_KEY'] = 'you-will-never-guess'
 
 bootstrap = Bootstrap(app)
 

@@ -1,4 +1,33 @@
-{% extends "base.html" %} {% block app_content %}
+{% extends "base.html" %} 
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block app_content %}
 <h2>Dashboard</h2>
 <p>What are we doing now: {{ downloadingText }}</p>
+
+    <h1>Sign In</h1>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(newJob) }}
+        </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(procrastination) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+    <br>
+    <p>New User? <a href="{{ url_for('warehouse') }}">Click to Register!</a></p>
+    <p>
+        Forgot Your Password?
+        <a href="{{ url_for('pending') }}">Click to Reset It</a>
+    </p>
+
+    <select name="colour" method="GET" action="/">
+        {% for colour in colours %}
+            <option value="{{colour}}" SELECTED>{{colour}}</option>"
+        {% endfor %}
+    </select>
 {% endblock %}

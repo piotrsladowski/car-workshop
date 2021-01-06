@@ -4,13 +4,16 @@ import os
 if os.name == 'posix':
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app
-    #from app.models import Course, Files
+    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
   else:
     from car_workshop.app import app
+    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
 elif os.name == 'nt':
   from car_workshop.app import app
+  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
 
-from flask import render_template, flash, redirect, request
+
+from flask import render_template, flash, redirect, request, url_for
 import re
 from pathlib import Path
 import time
@@ -96,9 +99,18 @@ def course(coursename):
     #return render_template('course.html', course=course, files=files)
     return render_template('course.html')
 
-@app.route('/dashboard')
+@app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    return render_template('dashboard.html', downloadingText="dummy value")
+    form = LoginForm()
+    newJob = NewJobButtonForm()
+    procrastination = procrastinationButtonForm()
+    colours = ['Red', 'Blue', 'Black', 'Orange']
+    if request.method == 'POST':
+      if request.form.get('newJob') == 'cmon':
+        return redirect(url_for('index'))
+      if request.form.get('procrastination') == 'procrastination':
+        return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
+    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob,colours=colours, procrastination=procrastination)
 
 @app.route('/browse')
 def browse():
@@ -114,7 +126,6 @@ def finished():
 
 @app.route('/warehouse')
 def warehouse():
-    #return render_template("table.html", data=data, columns=columns, title='Flask Bootstrap Table')
     return render_template('warehouse.html', data=data, columns=columns, title='Tabela')
 
 
