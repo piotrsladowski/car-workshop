@@ -7,7 +7,7 @@ if os.name == 'posix':
     from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
   else:
     from car_workshop.app import app
-    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
+    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
 elif os.name == 'nt':
   from car_workshop.app import app
   from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
@@ -104,17 +104,21 @@ def dashboard():
     form = LoginForm()
     newJob = NewJobButtonForm()
     procrastination = procrastinationButtonForm()
+    dddd = SimpleButtonForm("dbnfdnif")
     if request.method == 'POST':
       if request.form.get('newJob') == 'New job':
         return redirect(url_for('newJob'))
       if request.form.get('procrastination') == 'procrastination':
         return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
-    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob, procrastination=procrastination)
+    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=dddd, procrastination=procrastination)
 
 @app.route('/newJob')
 def newJob():
+    indexForm = IndexForm()
+    data = ['Red', 'Green', 'Blue']
     colours = ['Red', 'Blue', 'Black', 'Orange']
-    return render_template('newJob.html', colours=colours)
+    names = {'Star Wars': ['Luke', 'Han', 'Chewie'], 'Avengers': ['Iron Man', 'Hulk', 'Spiderman']}
+    return render_template('newJob.html', colours=colours, names=names, form=indexForm, data=data)
 
 @app.route('/pending')
 def pending():

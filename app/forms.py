@@ -15,3 +15,8 @@ class NewJobButtonForm(FlaskForm):
 
 class procrastinationButtonForm(FlaskForm):
     procrastination = SubmitField('Procrastinate')
+
+
+class IndexForm(FlaskForm):
+    car = StringField('Car', validators=[DataRequired()])
+    submit = SubmitField('Submit')

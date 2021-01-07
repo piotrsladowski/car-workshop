@@ -5,4 +5,19 @@
         <option value="{{colour}}" SELECTED>{{colour}}</option>"
     {% endfor %}
 </select>
+
+
+<div class="dropdown">
+    <div class="input-group-btn">
+        <button class="btn btn-info btn-md dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="color_dropdown" >
+        Select Color
+        <span class="caret"></span>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            {% for datum in data %}
+               <a class="dropdown-item" href="#">{{ datum }}</a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
