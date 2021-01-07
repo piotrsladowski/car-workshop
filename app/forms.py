@@ -11,7 +11,7 @@ class LoginForm(FlaskForm):
 
 
 class NewJobButtonForm(FlaskForm):
-    newJob = SubmitField('cmon')
+    newJob = SubmitField('New job')
 
 class procrastinationButtonForm(FlaskForm):
-    procrastination = SubmitField('procrastination')
+    procrastination = SubmitField('Procrastinate')

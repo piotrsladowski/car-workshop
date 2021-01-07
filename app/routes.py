@@ -104,17 +104,17 @@ def dashboard():
     form = LoginForm()
     newJob = NewJobButtonForm()
     procrastination = procrastinationButtonForm()
-    colours = ['Red', 'Blue', 'Black', 'Orange']
     if request.method == 'POST':
-      if request.form.get('newJob') == 'cmon':
-        return redirect(url_for('index'))
+      if request.form.get('newJob') == 'New job':
+        return redirect(url_for('newJob'))
       if request.form.get('procrastination') == 'procrastination':
         return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
-    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob,colours=colours, procrastination=procrastination)
+    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob, procrastination=procrastination)
 
-@app.route('/browse')
-def browse():
-    return render_template('browse.html')
+@app.route('/newJob')
+def newJob():
+    colours = ['Red', 'Blue', 'Black', 'Orange']
+    return render_template('newJob.html', colours=colours)
 
 @app.route('/pending')
 def pending():
