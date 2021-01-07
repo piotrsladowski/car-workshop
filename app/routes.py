@@ -104,13 +104,12 @@ def dashboard():
     form = LoginForm()
     newJob = NewJobButtonForm()
     procrastination = procrastinationButtonForm()
-    dddd = SimpleButtonForm("dbnfdnif")
     if request.method == 'POST':
       if request.form.get('newJob') == 'New job':
         return redirect(url_for('newJob'))
       if request.form.get('procrastination') == 'procrastination':
         return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
-    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=dddd, procrastination=procrastination)
+    return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob, procrastination=procrastination)
 
 @app.route('/newJob')
 def newJob():
