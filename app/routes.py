@@ -4,13 +4,13 @@ import os
 if os.name == 'posix':
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app
-    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
+    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
   else:
     from car_workshop.app import app
     from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
 elif os.name == 'nt':
   from car_workshop.app import app
-  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm
+  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
 
 
 from flask import render_template, flash, redirect, request, url_for
