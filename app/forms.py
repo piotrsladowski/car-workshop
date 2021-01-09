@@ -16,6 +16,12 @@ class NewJobButtonForm(FlaskForm):
 class procrastinationButtonForm(FlaskForm):
     procrastination = SubmitField('Procrastinate')
 
+class ageNoButtonForm(FlaskForm):
+    ageNo = SubmitField('No')
+
+class ageYesButtonForm(FlaskForm):
+    ageYes = SubmitField('Yes')
+
 
 class IndexForm(FlaskForm):
     car = StringField('Car', validators=[DataRequired()])

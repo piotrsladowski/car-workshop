@@ -4,13 +4,13 @@ import os
 if os.name == 'posix':
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app
-    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
+    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
   else:
     from car_workshop.app import app
-    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
+    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
 elif os.name == 'nt':
   from car_workshop.app import app
-  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm
+  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
 
 
 from flask import render_template, flash, redirect, request, url_for
@@ -107,7 +107,7 @@ def dashboard():
     if request.method == 'POST':
       if request.form.get('newJob') == 'New job':
         return redirect(url_for('newJob'))
-      if request.form.get('procrastination') == 'procrastination':
+      if request.form.get('procrastination') == 'Procrastinate':
         return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
     return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob, procrastination=procrastination)
 
@@ -131,6 +131,20 @@ def finished():
 def warehouse():
     return render_template('warehouse.html', data=data, columns=columns, title='Tabela')
 
+@app.route('/calendar2021', methods=['GET', 'POST'])
+def calendar2021():
+    ageYes = ageYesButtonForm()
+    ageNo = ageNoButtonForm()
+    if request.method == 'POST':
+      if request.form.get('ageNo') == 'No':
+        return redirect(url_for('index'))
+      if request.form.get('ageYes') == 'Yes':
+        return redirect(url_for('chamberOfSecrets'))
+    return render_template('calendar2021.html', ageYes=ageYes, ageNo=ageNo)
+
+@app.route('/chamberOfSecrets')
+def chamberOfSecrets():
+    return redirect('https://youtu.be/dQw4w9WgXcQ?t=43')
 
 if __name__ == '__main__':
 	#print jdata

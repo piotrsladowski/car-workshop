@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
+<img class="center-block" src="{{url_for('.static', filename='cenzor_vdb347.png')}}" alt="User Image" width="20%" height="auto">
+<div class="text-center">
+    <h2>Are you 18 years old?</h2>
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(ageNo) }}
+        </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(ageYes) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
