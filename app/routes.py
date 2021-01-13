@@ -153,10 +153,10 @@ def chamberOfSecrets():
 
 @app.route('/dbtestin')
 def testindb():
-  cursor = mysql.connection.cursor()
-  cursor.execute('''select * from car_models order by car_model''')
-  models = cursor.fetchall()
-  return json(models)
+    cursor = mysql.connection.cursor()
+    cursor.execute('''select * from car_models order by car_model''')
+    models = cursor.fetchall()
+    return json(models)
 
 if __name__ == '__main__':
 	#print jdata
