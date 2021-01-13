@@ -114,14 +114,19 @@ def dashboard():
 @app.route('/newJob', methods=['GET', 'POST'])
 def newJob():
     if request.method == 'POST':
-      print("dupa")
       print(request.form)
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
-    return render_template('newJob.html', colours=colours)
+    return render_template('newJob.html')
 
 @app.route('/pending')
 def pending():
     return render_template('pending.html')
+
+@app.route('/newCar')
+def newCar():
+    colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
+    models = ['LanOS', 'Mały Fiat', 'Duży Fiat']
+    return render_template('newCar.html', colours=colours, models=models)
 
 @app.route('/finished')
 def finished():

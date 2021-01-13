@@ -43,13 +43,6 @@
     <input type="radio" id="stolenNo" name="isStolen" value="stolenNo">
     <label for="stolenNo">No</label>
     <br>
-    <label for="colour">Colour</label>
-    <select name="colour" method="GET" action="/">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{colour}}</option>"
-        {% endfor %}
-    </select>
-    <br>
     <input type="submit">
   </form>
 {% endblock %}
