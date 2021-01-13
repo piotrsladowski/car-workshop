@@ -3,12 +3,15 @@
 <div class="text-center">
     <h2>Are you 18 years old?</h2>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm-6">
             {{ wtf.quick_form(ageNo) }}
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-6">
             {{ wtf.quick_form(ageYes) }}
         </div>
     </div>
 </div>
+ <audio src="{{url_for('.static', filename='xD.mp3')}}" autoplay>
+    <p>If you are reading this, it is because your browser does not support the audio element.     </p>
+    </audio>
 {% endblock %}
