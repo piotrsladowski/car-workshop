@@ -3,13 +3,13 @@ import os
 
 if os.name == 'posix':
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
-    from project.car_workshop.app import app
+    from project.car_workshop.app import app, mysql
     from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
   else:
-    from car_workshop.app import app
+    from car_workshop.app import app, mysql
     from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
 elif os.name == 'nt':
-  from car_workshop.app import app
+  from car_workshop.app import app, mysql
   from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
 
 
@@ -150,6 +150,13 @@ def calendar2021():
 @app.route('/chamberOfSecrets')
 def chamberOfSecrets():
     return redirect('https://youtu.be/dQw4w9WgXcQ?t=43')
+
+@app.route('/dbtestin')
+def testindb():
+    cursor = mysql.connection.cursor()
+    cursor.execute('''select * from car_models order by car_model''')
+    models = cursor.fetchall()
+    return str(models)
 
 if __name__ == '__main__':
 	#print jdata
