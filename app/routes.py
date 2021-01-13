@@ -156,7 +156,7 @@ def testindb():
     cursor = mysql.connection.cursor()
     cursor.execute('''select * from car_models order by car_model''')
     models = cursor.fetchall()
-    return json(models)
+    return str(models)
 
 if __name__ == '__main__':
 	#print jdata
