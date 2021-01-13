@@ -5,4 +5,23 @@
 <img class="center-block" src="{{url_for('.static', filename='intro_d78gbefs.avif')}}" alt="User Image" width="90%" height="auto">
 </div>
 </div>
+
+<video id="my_video_1" class="video-js vjs-fluid vjs-default-skin" controls preload="auto"
+data-setup='{}'>
+  <source src="https://radio.stream.smcdn.pl/icradio-p/3990-1.aac/playlist.m3u8" type="application/x-mpegURL">
+</video>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script src="https://unpkg.com/video.js/dist/video.js"></script>
+      <script src="https://unpkg.com/videojs-contrib-hls/dist/videojs-contrib-hls.js"></script>
+<script>
+var player = videojs('my_video_1');
+player.play();
+</script>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link href="https://unpkg.com/video.js/dist/video-js.css" rel="stylesheet">
 {% endblock %}
