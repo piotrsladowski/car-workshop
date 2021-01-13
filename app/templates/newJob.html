@@ -1,23 +1,55 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
-<h1>Create a new job</h1>
-<select name="colour" method="GET" action="/">
-    {% for colour in colours %}
+<h1>Create a new realization</h1>
+
+<table class="table">
+    <tbody>
+        <tr>
+            <td>Worker ID</td>
+            <td>
+                <select name="colour" method="GET" action="/">
+                    {% for colour in colours %}
+                    <option value="{{colour}}" SELECTED>{{colour}}</option>"
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Cost</td>
+            <td>
+                <form method="POST">
+                    <input name="text">
+                    <input name="fdsfsdfsd">
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Cost</td>
+            <td>
+                <form method="POST" action="/newJob">
+                    <input type="submit">
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<form method="POST" action="/newJob">
+    <label for="tname">Realization name:</label><br>
+    <input type="text" id="tname" name="tname"><br>
+    <label for="lname">Last name:</label><br>
+    <input type="text" id="lname" name="lname"><br>
+    Is stolen?<br>
+    <input type="radio" id="stolenYes" name="isStolen" value="stolenYes">
+    <label for="stolenYes">Yes</label>
+    <input type="radio" id="stolenNo" name="isStolen" value="stolenNo">
+    <label for="stolenNo">No</label>
+    <br>
+    <label for="colour">Colour</label>
+    <select name="colour" method="GET" action="/">
+        {% for colour in colours %}
         <option value="{{colour}}" SELECTED>{{colour}}</option>"
-    {% endfor %}
-</select>
-
-
-<div class="dropdown">
-    <div class="input-group-btn">
-        <button class="btn btn-info btn-md dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" name="color_dropdown" >
-        Select Color
-        <span class="caret"></span>
-        </button>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {% for datum in data %}
-               <a class="dropdown-item" href="#">{{ datum }}</a>
-            {% endfor %}
-        </div>
-    </div>
-</div>
+        {% endfor %}
+    </select>
+    <br>
+    <input type="submit">
+  </form>
 {% endblock %}

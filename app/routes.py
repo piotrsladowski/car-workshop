@@ -4,13 +4,13 @@ import os
 if os.name == 'posix':
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app
-    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
+    from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
   else:
     from car_workshop.app import app
-    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
+    from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
 elif os.name == 'nt':
   from car_workshop.app import app
-  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, IndexForm, ageNoButtonForm, ageYesButtonForm
+  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
 
 
 from flask import render_template, flash, redirect, request, url_for
@@ -111,13 +111,13 @@ def dashboard():
         return redirect('https://www.youtube.com/watch?v=EErY75MXYXI')
     return render_template('dashboard.html', downloadingText="dummy value",form=form, newJob=newJob, procrastination=procrastination)
 
-@app.route('/newJob')
+@app.route('/newJob', methods=['GET', 'POST'])
 def newJob():
-    indexForm = IndexForm()
-    data = ['Red', 'Green', 'Blue']
-    colours = ['Red', 'Blue', 'Black', 'Orange']
-    names = {'Star Wars': ['Luke', 'Han', 'Chewie'], 'Avengers': ['Iron Man', 'Hulk', 'Spiderman']}
-    return render_template('newJob.html', colours=colours, names=names, form=indexForm, data=data)
+    if request.method == 'POST':
+      print("dupa")
+      print(request.form)
+    colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
+    return render_template('newJob.html', colours=colours)
 
 @app.route('/pending')
 def pending():

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, Form, BooleanField, TextField, SelectField, SelectMultipleField
+from wtforms.validators import DataRequired, Required
 
 
 class LoginForm(FlaskForm):
@@ -21,8 +21,3 @@ class ageNoButtonForm(FlaskForm):
 
 class ageYesButtonForm(FlaskForm):
     ageYes = SubmitField('Yes')
-
-
-class IndexForm(FlaskForm):
-    car = StringField('Car', validators=[DataRequired()])
-    submit = SubmitField('Submit')
