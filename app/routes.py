@@ -127,7 +127,7 @@ def newJob():
     if request.method == 'POST':
       print(request.form)
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
-    return render_template('newJob.html')
+    return render_template('newJob.html', colours=colours)
 
 @app.route('/pending')
 def pending():
@@ -139,7 +139,7 @@ def pending():
     #jobs_pending = list(rv)   
     return render_template('pending.html')
 
-@app.route('/newCar')
+@app.route('/newCar', methods=['GET', 'POST'])
 def newCar():
     # fetching car_models
     """
@@ -152,7 +152,8 @@ def newCar():
     
     # setting up models
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
-
+    if request.method == 'POST':
+      print(request.form)
     return render_template('newCar.html', colours=colours)
 
 @app.route('/finished')
