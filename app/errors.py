@@ -4,7 +4,6 @@ import os
 import time
 
 if os.name == 'posix':
-  print("test")
   if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app
   else:

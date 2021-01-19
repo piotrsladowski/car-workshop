@@ -123,7 +123,7 @@ def newJob():
       if row['is_working'] == 1 and row['busy'] == 0:
         full_name = row['name'] + ' ' + row['surname']
         workers.append(full_name)"""
-
+    print(request.cookies.get('username'))
     if request.method == 'POST':
       print(request.form)
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
@@ -192,6 +192,10 @@ def calendar2021():
 @app.route('/chamberOfSecrets')
 def chamberOfSecrets():
     return redirect('https://youtu.be/dQw4w9WgXcQ?t=43')
+
+@app.route('/gameOver')
+def gameOver():
+    return render_template('gameOver.html')
 
 if __name__ == '__main__':
 	#print jdata

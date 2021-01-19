@@ -1,0 +1,17 @@
+{% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
+<video controls id="myvideo" autoplay>
+    <source src="{{url_for('.static', filename='game_over_homm_720p.webm')}}">
+    </source>
+    <source src="somevideo.mp4">
+    </source>
+</video>
+
+{% block scripts %}
+{{ super() }}
+<script>
+var elem = document.getElementsByTagName('myvideo')[0];
+var fullscreen = elem.webkitRequestFullscreen || elem.mozRequestFullScreen || elem.msRequestFullscreen;
+fullscreen.call(elem); // bind the 'this' from the video object and instantiate the correct fullscreen method.
+</script>
+{% endblock %}
+{% endblock %}
