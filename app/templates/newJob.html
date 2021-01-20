@@ -73,6 +73,11 @@
     function validateForm() {
         var x = document.forms["rForm"]["rname"].value;
         var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        if (x == "spadaj") {
+            var audio = new Audio("{{url_for('.static', filename='audio/DIA_ADDON_BL_BDT_13_GOLD_13_03.OPUS')}}");
+            audio.play();
+            return false;
+        }
         if (format.test(x)) {
             var amarel = getCookie("amarel");
             if (amarel != "") {
@@ -82,11 +87,11 @@
                     audio.play();
                 } else if (amarel == "2") {
                     document.cookie = "amarel=3";
-                    var audio = new Audio("{{url_for('.static', filename='audio/DIA_RUMBOLD_PREPERM_10_01.OPUS')}}");
+                    var audio = new Audio("{{url_for('.static', filename='audio/DIA_SEKOB_HALLO_01_00.OPUS')}}");
                     audio.play();
                 } else if (amarel == "3") {
                     document.cookie = "amarel=4";
-                    var audio = new Audio("{{url_for('.static', filename='audio/DIA_SEKOB_HALLO_01_00.OPUS')}}");
+                    var audio = new Audio("{{url_for('.static', filename='audio/DIA_RUMBOLD_PREPERM_10_01.OPUS')}}");
                     audio.play();
                 } else if (amarel == "4") {
                     document.cookie = "amarel=5";
@@ -105,7 +110,7 @@
                 var audio = new Audio("{{url_for('.static', filename='audio/INFO_BLOODWYN_DIE_08_07.OPUS')}}");
                 audio.play();
             }
-            
+
             return false;
         }
     }
