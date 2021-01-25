@@ -1,3 +1,11 @@
 body {
     background-color: rgb(9, 7, 24);
   }
+
+.body404 {
+    background-image: url("img/Najman-5423b23.avif");
+    height: 700px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+   }

@@ -1,8 +1,8 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <video controls id="myvideo" autoplay>
-    <source src="{{url_for('.static', filename='game_over_homm_720p.webm')}}">
+    <source src="{{url_for('.static', filename='video/game_over_homm_1080p.webm')}}">
     </source>
-    <source src="somevideo.mp4">
+    <source src="{{url_for('.static', filename='video/game_over_homm_1080p.mp4')}}">
     </source>
 </video>
 

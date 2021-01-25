@@ -72,7 +72,7 @@
 <script>
     function validateForm() {
         var x = document.forms["rForm"]["rname"].value;
-        var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        var format = /[ `!@#$%^&*()+=\[\]{};':"\\|,.<>\/?~]/;
         if (x == "spadaj") {
             var audio = new Audio("{{url_for('.static', filename='audio/DIA_ADDON_BL_BDT_13_GOLD_13_03.OPUS')}}");
             audio.play();
@@ -101,6 +101,9 @@
                     document.cookie = "amarel=6";
                     var audio = new Audio("{{url_for('.static', filename='audio/DIA_RAOUL_TROLL_RECHNUNG_B_RAOUL_BLAME_01_00.OPUS')}}");
                     audio.play();
+                    setTimeout(function (){
+                    window.location.href = "https://g02.labagh.pl/gameOver";
+                    }, 7000);
                 } else {
                     var audio = new Audio("{{url_for('.static', filename='audio/SVM_8_SMALLTALK18.OPUS')}}");
                     audio.play();
