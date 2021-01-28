@@ -2,7 +2,7 @@ import subprocess
 import os
 
 if os.name == 'posix':
-  if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
+  if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.10.1.el8_3.x86_64 x86_64'):
     from project.car_workshop.app import app, mysql
     from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
   else:
@@ -44,7 +44,6 @@ def getCourseList():
         c = c[:-1]
         coursesList.append(c)
 """
-#getCourseList()
 data = [{
   "name": "spojler_fiat_126p",
   "description": "Spojler do malucha",
