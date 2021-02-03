@@ -1,12 +1,24 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
-<h1>Create a new realization</h1>
-
+<div class="text-center">
+    <h1>Create a new realization</h1>
+</div>
+<form method="POST" action="/newJob" id="newr_form" name="rForm" onsubmit="return validateFormNewJob()"></form>
 <table class="table">
     <tbody>
         <tr>
-            <td>Worker ID</td>
             <td>
-                <select name="colour" method="GET" action="/">
+                <label for="rname">Realization name:</label><br>
+            </td>
+            <td>
+                <input type="text" id="rname" name="rname" form="newr_form" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Worker ID</label>
+            </td>
+            <td>
+                <select name="wid" method="GET" action="/" form="newr_form">
                     {% for colour in colours %}
                     <option value="{{colour}}" SELECTED>{{colour}}</option>"
                     {% endfor %}
@@ -14,35 +26,48 @@
             </td>
         </tr>
         <tr>
-            <td>Cost</td>
             <td>
-                <form method="POST">
-                    <input name="text">
-                    <input name="fdsfsdfsd">
-                </form>
+                <label>Cost</label>
+            </td>
+            <td>
+                <select name="cost" method="GET" action="/" form="newr_form">
+                    {% for colour in colours %}
+                    <option value="{{colour}}" SELECTED>{{colour}}</option>"
+                    {% endfor %}
+                </select>
             </td>
         </tr>
         <tr>
-            <td>Cost</td>
             <td>
-                <form method="POST" action="/newJob">
-                    <input type="submit">
-                </form>
+                <label>Deadline</label>
+            </td>
+            <td>
+                <input type="date" name="deadline" form="newr_form" value="2021-02-01" min="2021-02-01"
+                    max="2021-12-31">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Status</label>
+            </td>
+            <td>
+                <select name="status" method="GET" action="/" form="newr_form">
+                    <option value="new">New</option>
+                    <option value="open">Open</option>
+                    <option value="rejected">Rejected</option>
+                    <option value="finished">Finished</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" form="newr_form">
             </td>
         </tr>
     </tbody>
 </table>
-<form method="POST" action="/newJob">
-    <label for="tname">Realization name:</label><br>
-    <input type="text" id="tname" name="tname"><br>
-    <label for="lname">Last name:</label><br>
-    <input type="text" id="lname" name="lname"><br>
-    Is stolen?<br>
-    <input type="radio" id="stolenYes" name="isStolen" value="stolenYes">
-    <label for="stolenYes">Yes</label>
-    <input type="radio" id="stolenNo" name="isStolen" value="stolenNo">
-    <label for="stolenNo">No</label>
-    <br>
-    <input type="submit">
-  </form>
+{% endblock %}
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="{{url_for('.static', filename='scripts/formValidate.js')}}"></script>
 {% endblock %}

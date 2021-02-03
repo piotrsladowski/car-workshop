@@ -1,4 +1,22 @@
 {% extends "base.html" %} {% block app_content %}
+<body class="body404">
 <h1>Not Found</h1>
+{% if num == 1 %}
+<audio src="{{url_for('.static', filename='audio/INFO_BAALLUKOR_FOUNDNONE_15_01.OPUS')}}" autoplay>
+    <p>If you are reading this, it is because your browser does not support the audio element.     </p>
+    </audio>
+{% endif %}
+{% if num == 0 %}
+<audio src="{{url_for('.static', filename='audio/STANOSKI.ogg')}}" autoplay>
+    <p>If you are reading this, it is because your browser does not support the audio element.     </p>
+    </audio>
+{% endif %}
+
 <p><a href="{{ url_for('index') }}">Back</a></p>
+</body>
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}">
 {% endblock %}

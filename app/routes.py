@@ -40,7 +40,6 @@ def getCourseList():
         c = c[:-1]
         coursesList.append(c)
 """
-#getCourseList()
 data = [{
   "name": "spojler_fiat_126p",
   "description": "Spojler do malucha",
@@ -122,7 +121,7 @@ def newJob():
     if request.method == 'POST':
       print(request.form)
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
-    return render_template('newJob.html')
+    return render_template('newJob.html', colours=colours)
 
 @app.route('/pending')
 def pending():
@@ -131,23 +130,25 @@ def pending():
     c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='pending' ''')
     rv = c.fetchall()
 
-    jobs_pending = list(rv)
-    return render_template('pending.html', jobs=jobs_pending)
+    #jobs_pending = list(rv)   
+    return render_template('pending.html')
 
-@app.route('/newCar')
+@app.route('/newCar', methods=['GET', 'POST'])
 def newCar():
     # fetching car_models
+    """
     c = mysql.connection.cursor()
     c.execute('''select * from car_models order by car_model''')
     rv = c.fetchall()
     models = []
     for row in rv:
-      models.append(row['car_model'])
+      models.append(row['car_model'])"""
     
     # setting up models
     colours = ['Red', 'Blue', 'Black', 'Orange', 'Green', 'White']
-
-    return render_template('newCar.html', colours=colours, models=models)
+    if request.method == 'POST':
+      print(request.form)
+    return render_template('newCar.html', colours=colours)
 
 @app.route('/finished')
 def finished():
@@ -156,18 +157,18 @@ def finished():
     c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='finished' ''')
     rv = c.fetchall()
     
-    jobs_finished = list(rv)
+    #jobs_finished = list(rv)
     
-    return render_template('finished.html', jobs=jobs_finished)
+    return render_template('finished.html')
 
 @app.route('/warehouse')
 def warehouse():
     # fetch parts
-    c = mysql.connection.cursor()
+    """c = mysql.connection.cursor()
     c.execute('''select * from parts''')
     rv = c.fetchall()
 
-    parts = list(rv)
+    parts = list(rv)"""
 
     return render_template('warehouse.html', data=data, columns=columns, title='Car parts available')
 
@@ -185,6 +186,10 @@ def calendar2021():
 @app.route('/chamberOfSecrets')
 def chamberOfSecrets():
     return redirect('https://youtu.be/dQw4w9WgXcQ?t=43')
+
+@app.route('/gameOver')
+def gameOver():
+    return render_template('gameOver.html')
 
 if __name__ == '__main__':
 	#print jdata

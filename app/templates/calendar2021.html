@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
-<img class="center-block" src="{{url_for('.static', filename='cenzor_vdb347.png')}}" alt="User Image" width="20%" height="auto">
+<img class="center-block" src="{{url_for('.static', filename='img/cenzor_vdb347.png')}}" alt="User Image" width="20%" height="auto">
 <div class="text-center">
     <h2>Are you 18 years old?</h2>
     <div class="row">
@@ -11,7 +11,7 @@
         </div>
     </div>
 </div>
- <audio src="{{url_for('.static', filename='xD.mp3')}}" autoplay>
+ <audio src="{{url_for('.static', filename='audio/xD.mp3')}}" autoplay>
     <p>If you are reading this, it is because your browser does not support the audio element.     </p>
     </audio>
 {% endblock %}

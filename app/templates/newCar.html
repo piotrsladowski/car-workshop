@@ -1,31 +1,81 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
+<div class="text-center">
 <h1>Add a new car</h1>
-
-<form method="POST" action="/newJob">
-    <label for="tname">Realization name:</label><br>
-    <input type="text" id="tname" name="tname"><br>
-    <label for="model">Model</label>
-    <select name="model" method="GET" action="/">
-        {% for model in models %}
-        <option value="{{model}}" SELECTED>{{model}}</option>"
-        {% endfor %}
-    </select>
-    <br>
-    <label for="vinnumber">VIN number:</label><br>
-    <input type="text" id="vinnumber" name="vinnumber"><br>
-    Is stolen?<br>
-    <input type="radio" id="stolenYes" name="isStolen" value="stolenYes">
-    <label for="stolenYes">Yes</label>
-    <input type="radio" id="stolenNo" name="isStolen" value="stolenNo">
-    <label for="stolenNo">No</label>
-    <br>
-    <label for="colour">Colour</label>
-    <select name="colour" method="GET" action="/">
-        {% for colour in colours %}
-        <option value="{{colour}}" SELECTED>{{colour}}</option>"
-        {% endfor %}
-    </select>
-    <br>
-    <input type="submit">
-  </form>
+</div>
+<form method="POST" action="/newCar" id="newc_form"></form>
+<table class="table">
+    <tbody>
+        <tr>
+            <td>
+                <label for="cname">Car name:</label><br>
+            </td>
+            <td>
+                <input type="text" id="cname" name="cname" form="newc_form" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Model</label>
+            </td>
+            <td>
+                <select name="model" method="GET" action="/" form="newc_form">
+                    {% for colour in colours %}
+                    <option value="{{colour}}" SELECTED>{{colour}}</option>"
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="cname">VIN:</label><br>
+            </td>
+            <td>
+                <input type="text" name="vin" form="newc_form" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="cname">Damage desc:</label><br>
+            </td>
+            <td>
+                <input type="text" name="damage" form="newc_form" required><br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Is stolen?</label>
+            </td>
+            <td>
+                <input type="radio" id="stolenYes" name="isStolen" value="stolenYes" form="newc_form">
+                <label for="stolenYes">Yes</label>
+                <input type="radio" id="stolenNo" name="isStolen" value="stolenNo" form="newc_form">
+                <label for="stolenNo">No</label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label for="colour">Colour</label>
+            </td>
+            <td>
+                <input type="color" id="head" name="colour" form="newc_form"
+                value="#e66465">
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Car counter (km)</label>
+            </td>
+            <td>
+                <input type="number"  name="carcounter" form="newc_form"
+                min="0" max="100000">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" form="newc_form">
+            </td>
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
