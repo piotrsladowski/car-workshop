@@ -1,17 +1,13 @@
 import subprocess
 import os
+import platform
 
-if os.name == 'posix':
-  if (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
+if platform.node() == 'bazy':
     from project.car_workshop.app import app, mysql
     from project.car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
-  else:
+else:
     from car_workshop.app import app, mysql
     from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
-elif os.name == 'nt':
-  from car_workshop.app import app, mysql
-  from car_workshop.app.forms import LoginForm, NewJobButtonForm, procrastinationButtonForm, ageNoButtonForm, ageYesButtonForm
-
 
 from flask import render_template, flash, redirect, request, url_for
 import re
@@ -91,13 +87,13 @@ columns = [
 def index():
     return render_template('index.html', title='Dashboard')
 
-@app.route('/course/<coursename>')
-def course(coursename):
+# @app.route('/course/<coursename>')
+# def course(coursename):
     """course = Course.query.filter_by(coursename=coursename).first_or_404()
     course_id = course.id
     files = Files.query.filter_by(course_id=course_id)"""
     #return render_template('course.html', course=course, files=files)
-    return render_template('course.html')
+    # return render_template('course.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -115,14 +111,13 @@ def dashboard():
 def newJob():
     # fetch workers
     c = mysql.connection.cursor()
-    c.execute('''select name, surname, is_working, busy from workers''')
+    c.execute('''select name, surname, is_working, busy from workers where is_working=1 and busy=0''')
     rv = c.fetchall()
     
     workers = []
     for row in rv:
-      if row['is_working'] == 1 and row['busy'] == 0:
-        full_name = row['name'] + ' ' + row['surname']
-        workers.append(full_name)
+      full_name = row['name'] + ' ' + row['surname']
+      workers.append(full_name)
 
     if request.method == 'POST':
       print(request.form)
@@ -132,11 +127,11 @@ def newJob():
 @app.route('/pending')
 def pending():
     # fetch pending jobs
-    # c = mysql.connection.cursor()
-    # c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='pending' ''')
-    # rv = c.fetchall()
+    c = mysql.connection.cursor()
+    c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='pending' ''')
+    rv = c.fetchall()
 
-    jobs_pending = list(rv)   
+    jobs_pending = list(rv)
     return render_template('pending.html', jobs=jobs_pending)
 
 @app.route('/newCar')
@@ -157,9 +152,9 @@ def newCar():
 @app.route('/finished')
 def finished():
     # fetch finished jobs
-    # c = mysql.connection.cursor()
-    # c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='finished' ''')
-    # rv = c.fetchall()
+    c = mysql.connection.cursor()
+    c.execute('''select (select (select car_model from car_models where id=c.model_id), vin_number, damage from cars as c where c.id=car_id), (select fullname(w.name, w.surname) from workers where w.id=worker_id), repair_cost, deadline from realisations where status='finished' ''')
+    rv = c.fetchall()
     
     jobs_finished = list(rv)
     
@@ -174,7 +169,7 @@ def warehouse():
 
     parts = list(rv)
 
-    return render_template('warehouse.html', data=data, columns=columns, title='Tabela')
+    return render_template('warehouse.html', data=data, columns=columns, title='Car parts available')
 
 @app.route('/calendar2021', methods=['GET', 'POST'])
 def calendar2021():

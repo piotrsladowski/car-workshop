@@ -21,8 +21,5 @@ if platform.node() == 'bazy':
 
 bootstrap = Bootstrap(app)
 
-if os.name == 'nt':
+if platform.node() != 'bazy':
     from car_workshop.app import routes
-else:    
-    if not (subprocess.check_output('uname -mrs', stderr=subprocess.STDOUT, shell=True).rstrip().decode('utf-8') == 'Linux 4.18.0-240.1.1.el8_3.x86_64 x86_64'):
-        from car_workshop.app import routes
