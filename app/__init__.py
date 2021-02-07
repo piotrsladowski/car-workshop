@@ -9,12 +9,13 @@ app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
 mysql = MySQL()
 if platform.node() == 'bazy':
+    from project.config import Config
     # app.config['MYSQL_HOST'] = 'localhost'
     # app.config['MYSQL_USER'] = 'g02'
     # app.config['MYSQL_PASSWORD'] = 'uythozxt'
     # app.config['MYSQL_DB'] = 'g02'
     # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
-    app.config.from_pyfile('config.py', silent=True)
+    app.config.from_object("Config")
 
     mysql.init_app(app)
 
