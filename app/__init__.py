@@ -7,7 +7,7 @@ import platform
 
 app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = 'you-will-never-guess'
-mysql = None
+mysql = MySQL()
 if platform.node() == 'bazy':
     # app.config['MYSQL_HOST'] = 'localhost'
     # app.config['MYSQL_USER'] = 'g02'
@@ -16,7 +16,7 @@ if platform.node() == 'bazy':
     # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
     app.config.from_pyfile('config.py', silent=True)
 
-    mysql = MySQL(app)
+    mysql.init_app(app)
 
 
 bootstrap = Bootstrap(app)
