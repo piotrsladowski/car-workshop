@@ -1,39 +1,62 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <div class="text-center">
-    <h1>Create a new realization</h1>
+
+{% if( success ) %}
+    <div class="alert alert-success">Realisation was successfully added to database.</div>
+{% endif %}
+
+{% if( alerts and len(alerts) > 0 ) %}
+    {% for alert in alerts %}
+    <div class="alert alert-danger">{{alert}}</div>
+    {% endfor %}
+{% endif %}
+
+<h1>Create a new realisation</h1>
+
 </div>
 <form method="POST" action="/newJob" id="newr_form" name="rForm" onsubmit="return validateFormNewJob()"></form>
 <table class="table">
     <tbody>
         <tr>
             <td>
-                <label for="rname">Realization name:</label><br>
+                <label for="desc">Realisation description:</label><br>
             </td>
             <td>
-                <input type="text" id="rname" name="rname" form="newr_form" required><br>
+                <input type="text" id="desc" name="desc" form="newr_form" required><br>
             </td>
         </tr>
         <tr>
             <td>
-                <label>Worker ID</label>
+                <label>Car</label>
             </td>
             <td>
-                <select name="wid" method="GET" action="/" form="newr_form">
-                    {% for colour in colours %}
-                    <option value="{{colour}}" SELECTED>{{colour}}</option>"
+                <select name="car" method="GET" action="/" form="newr_form">
+                    {% for car in cars %}
+                    <option value="{{car['id']}}" SELECTED>{{car["name"]}}</option>
                     {% endfor %}
                 </select>
             </td>
         </tr>
         <tr>
             <td>
-                <label>Cost</label>
+                <label>Worker Name</label>
+            </td>
+            <td>
+                <select name="worker" method="GET" action="/" form="newr_form">
+                    {% for worker in workers %}
+                    <option value="{{worker['id']}}" SELECTED>{{worker['full_name']}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Quality/Cost option</label>
             </td>
             <td>
                 <select name="cost" method="GET" action="/" form="newr_form">
-                    {% for colour in colours %}
-                    <option value="{{colour}}" SELECTED>{{colour}}</option>"
-                    {% endfor %}
+                    <option value="less">Using replacement parts</option>
+                    <option value="more">Using original parts</option>
                 </select>
             </td>
         </tr>
@@ -52,7 +75,6 @@
             </td>
             <td>
                 <select name="status" method="GET" action="/" form="newr_form">
-                    <option value="new">New</option>
                     <option value="open">Open</option>
                     <option value="rejected">Rejected</option>
                     <option value="finished">Finished</option>
