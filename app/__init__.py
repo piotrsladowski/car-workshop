@@ -14,6 +14,7 @@ if platform.node() == 'bazy':
     # app.config['MYSQL_PASSWORD'] = 'uythozxt'
     # app.config['MYSQL_DB'] = 'g02'
     # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+    app.config.from_pyfile('config.py', silent=True)
 
     mysql = MySQL(app)
 
