@@ -275,7 +275,7 @@ def newCar():
         messages.append('Color HEX code is wrong. Go check it one more time.')
         success = False
       else:
-        pd['color'] = str(request.form['color'].strip())
+        pd['color'] = str(request.form['color'].strip()[1:])
 
       # actual insert
       if success:
