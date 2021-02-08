@@ -299,34 +299,22 @@ def newCar():
 def pending():
     # fetch pending jobs
     c = mysql.connection.cursor()
-    c.execute('''select 
-      (select description as 'car_desc'
-      from cars 
-      where id=r.car_id),
-      (select 
-        (select car_model as 'car_model'
-        from car_models 
-        where id=c.model_id), 
-        c.vin_number as 'vin_number', 
-        (select 
-          description as 'dmg_desc'
-        from damages 
-        where id=c.damage)
-      from cars as c 
-      where c.id=r.car_id),
-      (select code as 'code'
-        from parts 
-        where id=r.part_id), 
-      (select 
-        fullname(w.name, w.surname) as 'worker'
-      from workers 
-      where w.id=r.worker_id), 
-      r.repair_cost as 'price', 
-      r.deadline as 'deadline'
-    from realisations as r
-    where 
+    c.execute('''select
+      c.description as 'car_desc',
+      c.vin_number as 'vin_number',
+      (select cm.car_model as 'car_model' from car_models as cm where cm.id=c.model_id),
+      (select d.description as 'dmg_desc' from damages as d where d.id=c.damage),
+      (select p.code as 'code' from parts as p where r.part_id=p.id),
+      (select fullname(w.name, w.surname) as 'worker' from workers as w where r.worker_id=w.id),
+      r.repair_cost as 'price',
+      r.deadline as 'deadline',
+      r.description as 're_desc'
+    from
+      realisations as r
+      inner join cars as c on r.car_id=c.id
+    where
       r.status='open'
-      or 
+      or
       r.status='delayed';''')
     data = c.fetchall()
 
@@ -370,6 +358,11 @@ def pending():
         "field": "worker",
         "title": "Person responsible for repair",
         "sortable": True,
+      },
+      {
+        "field": "re_desc",
+        "title": "Description of a repair",
+        "sortable": True,
       }
     ]
 
@@ -379,34 +372,22 @@ def pending():
 def finished():
     # fetch finished jobs
     c = mysql.connection.cursor()
-    c.execute('''select 
-      (select description as 'car_desc'
-      from cars 
-      where id=r.car_id),
-      (select 
-        (select car_model as 'car_model'
-        from car_models 
-        where id=c.model_id), 
-        c.vin_number as 'vin_number', 
-        (select 
-          description as 'dmg_desc'
-        from damages 
-        where id=c.damage)
-      from cars as c 
-      where c.id=r.car_id),
-      (select code as 'code'
-        from parts 
-        where id=r.part_id), 
-      (select 
-        fullname(w.name, w.surname) as 'worker'
-      from workers 
-      where w.id=r.worker_id), 
-      r.repair_cost as 'price', 
-      r.deadline as 'deadline'
-    from realisations as r
-    where 
+    c.execute('''select
+      c.description as 'car_desc',
+      c.vin_number as 'vin_number',
+      (select cm.car_model as 'car_model' from car_models as cm where cm.id=c.model_id),
+      (select d.description as 'dmg_desc' from damages as d where d.id=c.damage),
+      (select p.code as 'code' from parts as p where r.part_id=p.id),
+      (select fullname(w.name, w.surname) as 'worker' from workers as w where r.worker_id=w.id),
+      r.repair_cost as 'price',
+      r.deadline as 'deadline',
+      r.description as 're_desc'
+    from
+      realisations as r
+      inner join cars as c on r.car_id=c.id
+    where
       r.status='rejected'
-      or 
+      or
       r.status='finished';''')
     data = c.fetchall()
 
@@ -450,6 +431,11 @@ def finished():
         "field": "worker",
         "title": "Person responsible for repair",
         "sortable": True,
+      },
+      {
+        "field": "re_desc",
+        "title": "Description of a repair",
+        "sortable": True,
       }
     ]
 
@@ -461,7 +447,7 @@ def finished():
 def warehouse():
     # fetch parts
     c = mysql.connection.cursor()
-    c.execute('''select pid, code, is_original, price, amount, description from parts where amount > 0;''')
+    c.execute('''select id, code, is_original, price, amount, description from parts where amount > 0;''')
     rv = c.fetchall()
 
     data = []
