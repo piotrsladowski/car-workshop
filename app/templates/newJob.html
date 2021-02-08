@@ -5,7 +5,7 @@
     <div class="alert alert-success">Realisation was successfully added to database.</div>
 {% endif %}
 
-{% if( alerts and len(alerts) > 0 ) %}
+{% if( alerts ) %}
     {% for alert in alerts %}
     <div class="alert alert-danger">{{alert}}</div>
     {% endfor %}

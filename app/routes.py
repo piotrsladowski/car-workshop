@@ -40,7 +40,7 @@ def check_date(date: str) -> bool:
   except ValueError:
     return False
 
-formula = '[ `!@#$%^&*()+=\[\]{};\':"\\|,.<>\/\?~]'
+formula = '[`!@#$%^&*()+=\[\]{};\':"\\|,.<>\/\?~]'
 
 
 @app.route('/')
@@ -147,9 +147,11 @@ def newJob():
         (%s, %s, %s, %s, %s, %s, %s)
         ''', (pd['description'], pd['car_id'], pt['id'], pd['worker_id'], cost['cost'], pd['status'], pd['deadline']))
         mysql.connection.commit()
-        rid = str(c.lastrowid)
+        lst = c.lastrowid
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
+        rid = lst[-1]['rid']
 
+        print(rid)
         c.select('''select status from realisations where id=%s''', rid)
         rvr = c.fetchall()
 
@@ -188,22 +190,26 @@ def newCar():
       else:
         if len(request.form['desc'].strip()) == 0:
           messages.append('Description is required.')
+          ip_ban.block(remote_ip)
           success = False
         elif len(request.form['desc'].strip()) < 200:
           pd['description'] = str(request.form['desc'].strip())
         else:
           messages.append('Description too long.')
+          ip_ban.block(remote_ip)
           success = False
 
       ms = [int(m['id']) for m in models]
       if int(request.form['model'].strip()) not in ms:
         messages.append('You cannot enter Car Model to the database that our workshop cannot fix!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['model_id'] = int(request.form['model'].strip())
 
       if re.match(formula, request.form['vin']) is not None:
         messages.append('You cannot enter special characters into the database in Vin number!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['vin_number'] = str(request.form['vin'])
@@ -211,12 +217,14 @@ def newCar():
       ds = [int(d['id']) for d in damages]
       if int(request.form['damage']) not in ds:
         messages.append('You cannot enter Damage Type to the database that our workshop cannot fix!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['damage'] = int(request.form['damage'].strip())
 
       if request.form['isStolen'] not in ['stolenYes','stolenNo']:
         messages.append('Stop changing values in html tags!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         if request.form['isStolen'] == 'stolenYes':
@@ -229,13 +237,16 @@ def newCar():
             pd['car_counter'] = int(float(request.form['carcounter'].strip()))
         else:
           messages.append('Car counter out of range!')
+          ip_ban.block(remote_ip)
           success = False
       else:
         messages.append('Car counter accepts only integer digit values.')
+        ip_ban.block(remote_ip)
         success = False
 
       if re.fullmatch('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$', request.form['color']) is None:
         messages.append('Color HEX code is wrong. Go check it one more time.')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['color'] = str(request.form['color'].strip()[1:])
@@ -259,6 +270,7 @@ def pending():
     # fetch pending jobs
     c = mysql.connection.cursor()
     c.execute('''select
+      r.id as 'rid',
       c.description as 'car_desc',
       c.vin_number as 'vin_number',
       (select cm.car_model as 'car_model' from car_models as cm where cm.id=c.model_id),
@@ -276,7 +288,6 @@ def pending():
       or
       r.status='delayed';''')
     data = c.fetchall()
-
     columns = [
       {
         "field": "car_desc",
@@ -397,8 +408,6 @@ def finished():
         "sortable": True,
       }
     ]
-
-    #jobs_finished = list(rv)
     
     return render_template('finished.html', data=data, columns=columns)
 
@@ -450,6 +459,14 @@ def warehouse():
     ]
 
     return render_template('warehouse.html', data=data, columns=columns, title='Car parts available in the warehouse')
+
+@app.route('/closeRe/<rid>', methods=['POST'])
+def closeRealisation(rid):
+    c = mysql.connection.cursor()
+    c.execute('''update realisations set status='finished' where id=%s''', (rid))
+    mysql.connection.commit()
+
+    return redirect(url_for('pending'))
 
 # ADDONS
 @app.route('/calendar2021', methods=['GET', 'POST'])

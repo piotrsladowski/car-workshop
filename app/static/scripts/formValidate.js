@@ -1,6 +1,6 @@
     function validateFormNewJob() {
         var x = document.forms["rForm"]["rname"].value;
-        var format = /[ `!@#$%^&*()+=\[\]{};':"\\|,.<>\/?~]/;
+        var format = /[`!@#$%^&*()+=\[\]{};':"\\|,.<>\/?~]/;
         if (x == "spadaj") {
             var audio = new Audio("static/audio/DIA_ADDON_BL_BDT_13_GOLD_13_03.OPUS");
             audio.play();
