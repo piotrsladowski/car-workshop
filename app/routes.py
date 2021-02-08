@@ -263,7 +263,7 @@ def newCar():
 
       if re.fullmatch('^\d+', request.form['carcounter']) is not None:
         if 0 < int(float(request.form['carcounter'])) and int(float(request.form['carcounter'])) < 100000:
-            pd['car_counter'] = int(request.form['carcounter'])
+            pd['car_counter'] = int(float(request.form['carcounter']))
         else:
           messages.append('Car counter out of range!')
           success = False
@@ -279,9 +279,6 @@ def newCar():
 
       # actual insert
       if success:
-
-        # final_args = '({}, {}, {}, {}, {}, {}, {}, 0)'.format(pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color'])
-
         c.execute('''
         insert into cars 
         (description, model_id, vin_number, damage, is_stolen, car_counter, color, is_considered)
