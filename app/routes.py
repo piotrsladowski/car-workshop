@@ -150,7 +150,7 @@ def newJob():
       else:
         pd['car_id'] = request.form['car']
       
-      if request.form['worker'] == '' or request.form['worker'] not in [w['id'] for w in workers]:
+      if int(request.form['worker']) is None or int(request.form['worker']) not in [int(w['id']) for w in workers]:
         messages.append('You cannot choose worker that does not work in our workshop!')
         success = False
       else:
@@ -232,11 +232,12 @@ def newCar():
           messages.append('Description too long.')
           success = False
 
-      if request.form['model'] not in [m['id'] for m in models]:
+      ms = [int(m['id']) for m in models]
+      if int(request.form['model'].strip()) not in ms:
         messages.append('You cannot enter Car Model to the database that our workshop cannot fix!')
         success = False
       else:
-        pd['model_id'] = int(request.form['model'])
+        pd['model_id'] = int(request.form['model'].strip())
 
       if re.match(formula, request.form['vin']) is not None:
         messages.append('You cannot enter special characters into the database in Vin number!')
@@ -244,7 +245,8 @@ def newCar():
       else:
         pd['vin_number'] = str(request.form['vin'])
 
-      if request.form['damage'] not in [d['id'] for d in damages]:
+      ds = [int(d['id']) for d in damages]
+      if int(request.form['damage']) not in ds:
         messages.append('You cannot enter Damage Type to the database that our workshop cannot fix!')
         success = False
       else:
