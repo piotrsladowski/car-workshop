@@ -145,7 +145,7 @@ def newJob():
         (description, car_id, part_id, worker_id, repair_cost, status, deadline)
         values
         (%s, %s, %s, %s, %s, %s, %s)
-        ''', (pd['description'], pd['car_id'], pt['id'], pd['worker_id'], pd['car_id'], pd['is_original'], cost['cost'], pd['status'], pd['deadline']))
+        ''', (pd['description'], pd['car_id'], pt['id'], pd['worker_id'], cost['cost'], pd['status'], pd['deadline']))
         mysql.connection.commit()
         rid = str(c.lastrowid)
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
