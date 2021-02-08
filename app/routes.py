@@ -120,7 +120,7 @@ def dashboard():
 def newJob():
     # fetch workers
     c = mysql.connection.cursor()
-    c.execute('''select id, fullname(name, surname) from workers where is_working=1 and busy=0;''')
+    c.execute('''select id, fullname(name, surname) as 'fullname' from workers where is_working=1 and busy=0;''')
     workers = c.fetchall()
 
     c.execute('''select id, description from cars where is_considered=0''')
@@ -182,10 +182,10 @@ def newJob():
         insert into realisations
         (description, car_id, part_id, worker_id, cost, status, deadline)
         values
-        (%s, %d, choose_part(%d, %d), %d, set_cost(choose_part(%d, %d), %s, %s), %s, %s)
-        ''', pd['desc'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline'])
-        rid = c.lastrowid
+        (%s, %s, choose_part(%s, %s), %s, set_cost(choose_part(%s, %s), %s, %s), %s, %s)
+        ''' (pd['desc'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline']))
         mysql.connection.commit()
+        rid = c.lastrowid
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
 
         c.select('''select status, part_id from realisations where id=%d''', rid)
