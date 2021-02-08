@@ -133,12 +133,12 @@ def newJob():
 
       if success:
         c.execute('''select choose_part(%s, %s) as 'id';''', (pd['car_id'], pd['is_original']))
-        ptl = c.fetchall();
-	pt = ptl[0]
+        ptl = c.fetchall()
+        pt = ptl[0]
 
         c.execute('''select set_cost(%s, %s, %s) as 'cost';''', (pt['id'], pd['status'], pd['deadline']))
-        costl = c.fetchall();
-	cost = costl[0]
+        costl = c.fetchall()
+        cost = costl[0]
 
         c.execute('''
         insert into realisations
