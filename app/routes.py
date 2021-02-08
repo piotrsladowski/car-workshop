@@ -452,9 +452,9 @@ def warehouse():
 
     data = []
     for row in rv:
-      c.execute('''select (select car_model from car_models where id=car_id) from cars_parts where part_id={}'''.format(row['id']))
+      c.execute('''select (select cm.car_model as 'cm' from car_models as cm where cm.id=cp.car_id) from cars_parts as cp where cp.part_id={}'''.format(row['id']))
       models = c.fetchall()
-      mds = ' , '.join([m['car_model'] for m in models])
+      mds = ' , '.join([m['cm'] for m in models])
       data.append({'code': row['code'], 'original': row['is_original'], 'price': row['price'], 'amount': row['amount'], 'models': mds, 'description': row['description']})
 
     columns = [
