@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% import 'bootstrap/wtf.html' as wtf %} {% block app_content %}
 <div class="text-center">
-{% if( success and cid) %}
-    <div class="alert alert-success">Your request was successfully added to database. Observe card <b>Pending</b> to see if it is being processed or type in myCar this id: {{cid}}</div>
+{% if( success) %}
+    <div class="alert alert-success">Your request was successfully added to database. Observe card <b>Pending</b> to see if it is being processed.</div>
 {% endif %}
 
 {% if( alerts and len(alerts) > 0 ) %}

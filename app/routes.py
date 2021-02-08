@@ -120,13 +120,8 @@ def dashboard():
 def newJob():
     # fetch workers
     c = mysql.connection.cursor()
-    c.execute('''select id, name, surname from workers where is_working=1 and busy=0;''')
-    rv = c.fetchall()
-    
-    workers = []
-    for row in rv:
-      full_name = row['name'] + ' ' + row['surname']
-      workers.append({'id': row['id'], 'full_name': fullname})
+    c.execute('''select id, fullname(name, surname) from workers where is_working=1 and busy=0;''')
+    workers = c.fetchall()
 
     c.execute('''select id, description from cars where is_considered=0''')
     cars = c.fetchall()
@@ -149,13 +144,13 @@ def newJob():
           messages.append('Description too long.')
           success = False
       
-      if request.form['car'] not in [c['id'] for c in cars]:
+      if int(request.form['car']) is None or int(request.form['car']) not in [int(c['id']) for c in cars]:
         messages.append('You cannot choose car that does not exist in the database!')
         success = False
       else:
         pd['car_id'] = request.form['car']
       
-      if request.form['worker'] not in [w['id'] for w in workers]:
+      if request.form['worker'] == '' or request.form['worker'] not in [w['id'] for w in workers]:
         messages.append('You cannot choose worker that does not work in our workshop!')
         success = False
       else:
@@ -288,10 +283,9 @@ def newCar():
         values
         ({0}, {1}, {2}, {3}, {4}, {5}, {6}, 0);
         '''.format(pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color']))
-        cid = str(c.lastrowid)
         mysql.connection.commit()
 
-      return render_template('newCar.html', models=models, damages=damages, alerts=messages, success=success, cid=cid)
+      return render_template('newCar.html', models=models, damages=damages, alerts=messages, success=success)
 
     return render_template('newCar.html', models=models, damages=damages)
 
