@@ -81,7 +81,7 @@ def getCourseList():
 #   }
 # ]
 
-def check(date: str) -> bool:
+def check_date(date: str) -> bool:
   try:
     dt = datetime.datetime.strptime(date, '%Y-%m-%d')
     return True
