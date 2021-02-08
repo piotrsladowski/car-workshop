@@ -32,7 +32,7 @@
             <td>
                 <select name="car" method="GET" action="/" form="newr_form">
                     {% for car in cars %}
-                    <option value="{{car['id']}}" SELECTED>{{car["name"]}}</option>
+                    <option value="{{car['id']}}" SELECTED>{{car["description"]}}</option>
                     {% endfor %}
                 </select>
             </td>

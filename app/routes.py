@@ -128,7 +128,7 @@ def newJob():
       full_name = row['name'] + ' ' + row['surname']
       workers.append({'id': row['id'], 'full_name': fullname})
 
-    c.execute('''select id, name from cars where is_considered=0''')
+    c.execute('''select id, description from cars where is_considered=0''')
     cars = c.fetchall()
 
     if request.method == 'POST':
