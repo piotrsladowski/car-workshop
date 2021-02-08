@@ -257,9 +257,9 @@ def newCar():
         success = False
       else:
         if request.form['isStolen'] == 'stolenYes':
-          pd['is_stolen'] = int(1)
+          pd['is_stolen'] = 1
         elif request.form['isStolen'] == 'stolenNo':
-          pd['is_stolen'] = int(0)
+          pd['is_stolen'] = 0
 
       if re.fullmatch('^\d+', request.form['carcounter']) is not None:
         if 0 < int(float(request.form['carcounter'])) and int(float(request.form['carcounter'])) < 100000:
@@ -286,7 +286,7 @@ def newCar():
         insert into cars 
         (description, model_id, vin_number, damage, is_stolen, car_counter, color, is_considered)
         values
-        (%s, %d, %s, %d, %d, %d, %s, 0);
+        (%s, %d, %s, %d, %b, %d, %s, 0);
         ''', (pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color']))
         mysql.connection.commit()
 
