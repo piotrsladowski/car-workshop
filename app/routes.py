@@ -216,7 +216,7 @@ def newCar():
     c.execute('''select id, car_model from car_models order by car_model;''')
     models = c.fetchall()
 
-    c.execute('''select id, desc from damages;''')
+    c.execute('''select id, description from damages;''')
     damages = c.fetchall()
 
     if request.method == 'POST':
@@ -309,7 +309,7 @@ def pending():
         where id=c.model_id), 
         c.vin_number as 'vin_number', 
         (select 
-          desc as 'dmg_desc'
+          description as 'dmg_desc'
         from damages 
         where id=c.damage)
       from cars as c 
@@ -389,7 +389,7 @@ def finished():
         where id=c.model_id), 
         c.vin_number as 'vin_number', 
         (select 
-          desc as 'dmg_desc'
+          description as 'dmg_desc'
         from damages 
         where id=c.damage)
       from cars as c 
