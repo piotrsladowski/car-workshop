@@ -250,7 +250,7 @@ def newCar():
         messages.append('You cannot enter Damage Type to the database that our workshop cannot fix!')
         success = False
       else:
-        pd['damage'] = int(request.form['damage'])
+        pd['damage'] = int(request.form['damage'].strip())
 
       if request.form['isStolen'] not in ['stolenYes','stolenNo']:
         messages.append('Stop changing values in html tags!')
@@ -275,7 +275,7 @@ def newCar():
         messages.append('Color HEX code is wrong. Go check it one more time.')
         success = False
       else:
-        pd['color'] = str(request.form['color'])
+        pd['color'] = str(request.form['color'].strip())
 
       # actual insert
       if success:
