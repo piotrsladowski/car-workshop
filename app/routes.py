@@ -16,6 +16,10 @@ from pathlib import Path
 import datetime
 import json
 
+ip_ban = IpBan()
+ip_ban.init_app(app)
+ip_ban.load_nuisances()
+ip_ban.ip_whitelist_add('127.0.0.1')
 
 def clear_console():
     os.system('cls' if os.name=='nt' else 'clear')
@@ -59,6 +63,7 @@ def dashboard():
 
 @app.route('/newJob', methods=['GET', 'POST'])
 def newJob():
+    remote_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
     # fetch workers
     c = mysql.connection.cursor()
     c.execute('''select id, fullname(name, surname) as 'fullname' from workers where is_working=1 and busy=0;''')
@@ -74,31 +79,37 @@ def newJob():
 
       if re.search(formula, request.form['desc']) is not None:
         messages.append('You cannot enter special characters into the database in Realisation name!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         if len(request.form['desc'].strip()) == 0:
           messages.append('Description is required.')
+          ip_ban.block(remote_ip)
           success = False
         elif len(request.form['desc'].strip()) < 200:
           pd['description'] = request.form['desc'].strip()
         else:
           messages.append('Description too long.')
+          ip_ban.block(remote_ip)
           success = False
       
       if int(request.form['car']) is None or int(request.form['car']) not in [int(c['id']) for c in cars]:
         messages.append('You cannot choose car that does not exist in the database!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['car_id'] = request.form['car']
       
       if int(request.form['worker']) is None or int(request.form['worker']) not in [int(w['id']) for w in workers]:
         messages.append('You cannot choose worker that does not work in our workshop!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['worker_id'] = request.form['worker']
 
       if request.form['cost'] not in ['less', 'more']:
         messages.append('There is no option for quality service you are looking for.')
+        ip_ban.block(remote_ip)
         success = False
       else:
         if request.form['cost'] == 'less':
@@ -108,12 +119,14 @@ def newJob():
 
       if request.form['status'] not in ['open', 'rejected', 'finished']:
         messages.append('No other status option is considered.')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['status'] = request.form['status']
 
       if not check_date(request.form['deadline'].strip()):
         messages.append('This is not a date format. Stop messing HTML!')
+        ip_ban.block(remote_ip)
         success = False
       else:
         pd['deadline'] = request.form['deadline']
@@ -121,10 +134,10 @@ def newJob():
       if success:
         c.execute('''
         insert into realisations
-        (description, car_id, part_id, worker_id, cost, status, deadline)
+        (description, car_id, part_id, worker_id, repair_cost, status, deadline)
         values
         (%s, %s, choose_part(%s, %s), %s, set_cost(choose_part(%s, %s), %s, %s), %s, %s)
-        ''' (pd['description'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline']))
+        ''', (pd['description'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline']))
         mysql.connection.commit()
         rid = c.lastrowid
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
@@ -146,6 +159,7 @@ def newJob():
 
 @app.route('/newCar', methods=['GET', 'POST'])
 def newCar():
+    remote_ip = request.environ.get('HTTP_X_REAL_IP', request.remote_addr)
 
     # fetching car_models
     c = mysql.connection.cursor()
