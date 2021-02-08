@@ -133,17 +133,19 @@ def newJob():
 
       if success:
         c.execute('''select choose_part(%s, %s) as 'id';''', (pd['car_id'], pd['is_original']))
-        pt = c.fetchall();
+        ptl = c.fetchall();
+	pt = ptl[0]
 
-        c.execute('''select set_cost(%s, %s, %s) as 'cost';''', (pt[0], pd['status'], pd['deadline']))
-        cost = c.fetchall();
+        c.execute('''select set_cost(%s, %s, %s) as 'cost';''', (pt['id'], pd['status'], pd['deadline']))
+        costl = c.fetchall();
+	cost = costl[0]
 
         c.execute('''
         insert into realisations
         (description, car_id, part_id, worker_id, repair_cost, status, deadline)
         values
         (%s, %s, %s, %s, %s, %s, %s)
-        ''', (pd['description'], pd['car_id'], pt[0] pd['worker_id'], pd['car_id'], pd['is_original'], cost[0], pd['status'], pd['deadline']))
+        ''', (pd['description'], pd['car_id'], pt['id'], pd['worker_id'], pd['car_id'], pd['is_original'], cost['cost'], pd['status'], pd['deadline']))
         mysql.connection.commit()
         rid = str(c.lastrowid)
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
@@ -151,9 +153,9 @@ def newJob():
         c.select('''select status from realisations where id=%s''', rid)
         rvr = c.fetchall()
 
-        if rvr[0] != 'rejected':
-          c.execute('''select amount from parts where id=%s''', pt[0])
-          part = c.fetchall()
+        if rvr[0]['status'] != 'rejected':
+          c.execute('''select amount from parts where id=%s''', pt['id'])
+          part = c.fetchone()
           if part['amount'] > 0:
             c.execute('''update parts set amount=%d where id=%s''', part['amount'], part['id'])
             mysql.connection.commit()
