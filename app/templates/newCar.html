@@ -4,7 +4,7 @@
     <div class="alert alert-success">Your request was successfully added to database. Observe card <b>Pending</b> to see if it is being processed.</div>
 {% endif %}
 
-{% if( alerts and len(alerts) > 0 ) %}
+{% if( alerts ) %}
     {% for alert in alerts %}
     <div class="alert alert-danger">{{alert}}</div>
     {% endfor %}
