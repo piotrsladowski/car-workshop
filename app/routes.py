@@ -263,7 +263,7 @@ def newCar():
 
       if re.fullmatch('^\d+', request.form['carcounter']) is not None:
         if 0 < int(float(request.form['carcounter'])) and int(float(request.form['carcounter'])) < 100000:
-            pd['car_counter'] = int(float(request.form['carcounter']))
+            pd['car_counter'] = int(float(request.form['carcounter'].strip()))
         else:
           messages.append('Car counter out of range!')
           success = False
@@ -283,7 +283,7 @@ def newCar():
         insert into cars 
         (description, model_id, vin_number, damage, is_stolen, car_counter, color, is_considered)
         values
-        (%s, %d, %s, %d, %b, %d, %s, 0);
+        (%s, %s, %s, %s, %s, %s, %s, 0);
         ''', (pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color']))
         mysql.connection.commit()
 
