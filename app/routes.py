@@ -227,7 +227,7 @@ def newCar():
           messages.append('Description is required.')
           success = False
         elif len(request.form['desc'].strip()) < 200:
-          pd['description'] = request.form['desc'].strip()
+          pd['description'] = str(request.form['desc'].strip())
         else:
           messages.append('Description too long.')
           success = False
@@ -257,9 +257,9 @@ def newCar():
         success = False
       else:
         if request.form['isStolen'] == 'stolenYes':
-          pd['is_stolen'] = 1
+          pd['is_stolen'] = int(1)
         elif request.form['isStolen'] == 'stolenNo':
-          pd['is_stolen'] = 0
+          pd['is_stolen'] = int(0)
 
       if re.fullmatch('^\d+', request.form['carcounter']) is not None:
         if 0 < int(float(request.form['carcounter'])) and int(float(request.form['carcounter'])) < 100000:
