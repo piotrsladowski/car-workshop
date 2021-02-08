@@ -182,20 +182,20 @@ def newJob():
         insert into realisations
         (description, car_id, part_id, worker_id, cost, status, deadline)
         values
-        ({0}, {1}, choose_part({1}, {3}), {2}, set_cost(choose_part({1}, {3}), {4}, {5}), {4}, {5})
-        '''.format(pd['desc'], pd['car_id'], pd['worker_id'], pd['is_original'], pd['status'], pd['deadline']))
+        (%s, %d, choose_part(%d, %d), %d, set_cost(choose_part(%d, %d), %s, %s), %s, %s)
+        ''', pd['desc'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline'])
         rid = c.lastrowid
         mysql.connection.commit()
         # this should have a trigger to change car's is_considered to 1 and set worker to busy
 
-        c.select('''select status, part_id from realisations where id={}'''.format(rid))
+        c.select('''select status, part_id from realisations where id=%d''', rid)
         rvr = c.fetchall()
 
         if rvr['status'] != 'rejected':
-          c.execute('''select amount from parts where id={}'''.format(rvr['part_id']))
+          c.execute('''select amount from parts where id=%d''',rvr['part_id'])
           part = c.fetchall()
           if part['amount'] > 0:
-            c.execute('''update parts set amount={} where id={}'''.format(part['amount'], part['id']))
+            c.execute('''update parts set amount=%d where id=%d''', part['amount'], part['id'])
             mysql.connection.commit()
 
       return render_template('newJob.html', workers=workers, cars=cars, alerts=messages, success=success)
@@ -283,8 +283,8 @@ def newCar():
         insert into cars 
         (description, model_id, vin_number, damage, is_stolen, car_counter, color, is_considered)
         values
-        ({0}, {1}, {2}, {3}, {4}, {5}, {6}, 0);
-        '''.format(pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color']))
+        (%s, %d, %s, %d, %d, %d, %s, 0);
+        ''', pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color'])
         mysql.connection.commit()
 
       return render_template('newCar.html', models=models, damages=damages, alerts=messages, success=success)
