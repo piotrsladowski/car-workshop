@@ -280,14 +280,14 @@ def newCar():
       # actual insert
       if success:
 
-        final_args = '({}, {}, {}, {}, {}, {}, {}, 0)'.format(pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color'])
+        # final_args = '({}, {}, {}, {}, {}, {}, {}, 0)'.format(pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color'])
 
         c.execute('''
         insert into cars 
         (description, model_id, vin_number, damage, is_stolen, car_counter, color, is_considered)
         values
-        %s;
-        ''', final_args)
+        (%s, %d, %s, %d, %d, %d, %s, 0);
+        ''', (pd['description'], pd['model_id'], pd['vin_number'], pd['damage'], pd['is_stolen'], pd['car_counter'], pd['color']))
         mysql.connection.commit()
 
       return render_template('newCar.html', models=models, damages=damages, alerts=messages, success=success)
