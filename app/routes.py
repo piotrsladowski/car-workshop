@@ -1,6 +1,7 @@
 import subprocess
 import os
 import platform
+from flask_ipban import IpBan
 
 if platform.node() == 'bazy':
     from project.car_workshop.app import app, mysql
@@ -15,10 +16,6 @@ from pathlib import Path
 import datetime
 import json
 
-# This line has to be set manually
-coursesList = []
-
-########### Logic #############
 
 def clear_console():
     os.system('cls' if os.name=='nt' else 'clear')
@@ -31,55 +28,6 @@ def handle_windows_path(posix_path):
         return posix_path.replace('/', '\\')
     return posix_path
 
-"""
-def getCourseList():
-    global coursesList
-    tempList = Course.query.all()
-    for item in tempList:
-        c = str(item).split()[1]
-        c = c[:-1]
-        coursesList.append(c)
-"""
-# data = [{
-#   "name": "spojler_fiat_126p",
-#   "description": "Spojler do malucha",
-#   "amount": "122",
-#   "price": "450"
-# },
-#  {
-#   "name": "plandeka_zuk",
-#   "description": "Plandeka od żuka",
-#   "amount": "0",
-#   "price": "123,23"
-# }, {
-#   "name": "felgi",
-#   "description": "Chromowane felgi",
-#   "amount": "10",
-#   "price": "99"
-# }]
-# other column settings -> http://bootstrap-table.wenzhixin.net.cn/documentation/#column-options
-# columns = [
-#   {
-#     "field": "name", # which is the field's name of data key 
-#     "title": "name", # display as the table header's name
-#     "sortable": True,
-#   },
-#   {
-#     "field": "description",
-#     "title": "description",
-#     "sortable": True,
-#   },
-#   {
-#     "field": "amount",
-#     "title": "amount",
-#     "sortable": True,
-#   },
-#   {
-#     "field": "price",
-#     "title": "price",
-#     "sortable": True,
-#   }
-# ]
 
 def check_date(date: str) -> bool:
   try:
@@ -96,13 +44,6 @@ formula = '[ `!@#$%^&*()+=\[\]{};\':"\\|,.<>\/\?~]'
 def index():
     return render_template('index.html', title='Dashboard')
 
-# @app.route('/course/<coursename>')
-# def course(coursename):
-    """course = Course.query.filter_by(coursename=coursename).first_or_404()
-    course_id = course.id
-    files = Files.query.filter_by(course_id=course_id)"""
-    #return render_template('course.html', course=course, files=files)
-    # return render_template('course.html')
 
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
@@ -183,7 +124,7 @@ def newJob():
         (description, car_id, part_id, worker_id, cost, status, deadline)
         values
         (%s, %s, choose_part(%s, %s), %s, set_cost(choose_part(%s, %s), %s, %s), %s, %s)
-        ''' (pd['desc'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline']))
+        ''' (pd['description'], pd['car_id'], pd['car_id'], pd['is_original'], pd['worker_id'], pd['car_id'], pd['is_original'], pd['status'], pd['deadline'], pd['status'], pd['deadline']))
         mysql.connection.commit()
         rid = c.lastrowid
         # this should have a trigger to change car's is_considered to 1 and set worker to busy

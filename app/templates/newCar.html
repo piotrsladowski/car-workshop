@@ -13,7 +13,7 @@
 <h1>Add a new car</h1>
 
 </div>
-<form method="POST" action="/newCar" id="newc_form"></form>
+<form method="POST" action="/newCar" id="newc_form" name="cForm" onsubmit="return validateFormNewCar()"></form>
 <table class="table">
     <tbody>
         <tr>
@@ -83,7 +83,7 @@
             </td>
             <td>
                 <input type="number"  name="carcounter" form="newc_form"
-                min="0" max="100000">
+                min="0" max="100000" required>
             </td>
         </tr>
         <tr>
@@ -93,4 +93,9 @@
         </tr>
     </tbody>
 </table>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript" src="{{url_for('.static', filename='scripts/formValidate.js')}}"></script>
 {% endblock %}

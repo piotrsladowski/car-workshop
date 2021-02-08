@@ -24,4 +24,4 @@ if platform.node() == 'bazy':
 bootstrap = Bootstrap(app)
 
 if platform.node() != 'bazy':
-    from car_workshop.app import routes
+    from car_workshop.app import routes, errors
